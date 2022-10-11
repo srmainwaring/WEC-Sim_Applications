@@ -1,5 +1,13 @@
 """
-Use capytaine to generate the BEM coefficients for an ellipsoid.
+Copyright 2022 Rhys Mainwaring
+
+Run capytaine to generate the BEM coefficients.
+
+Reworking of the script in WEC_SIM/examples/BEMIO/CAPYTAINE
+to generate the BEM data.
+
+The main difference is that this is single threaded and allows custom offsets
+for the CoM and body origin.
 """
 
 import capytaine as cpt
@@ -8,14 +16,10 @@ import os
 import sys
 import xarray as xr
 
-# Reworking of the script in WEC_SIM/examples/BEMIO/CAPYTAINE to generate the BEM data.
-#
-# The main difference is that this is single threaded.
-
 # 1. set up input parameters --------------------------------------------------#
 
 # file io parameters
-bem_mesh_name = "ellipsoid_f5244"
+bem_mesh_name = "spheroid_f3676"
 bem_modpath = os.path.dirname(__file__)
 bem_mesh_file = os.path.join(bem_modpath, "..", "geometry", bem_mesh_name + ".stl")
 bem_nc_file = os.path.join(bem_modpath, bem_mesh_name + ".nc")
@@ -29,11 +33,10 @@ bem_rho = 1025.0
 print(f"bem_g:            {bem_g} m/s^2")
 print(f"bem_rho:          {bem_rho} kg/m^3")
 
-# body parameters - the ellipsoid from WEC-SIM_Applications/Nonlinear_Hydro
-#                   is centred at the CoM.
-bem_body_name = "ellipsoid"
-bem_translate = np.array([0, 0, -2])
-bem_com = np.array([0, 0, -2])
+# body parameters
+bem_body_name = bem_mesh_name
+bem_translate = np.array([0, 0, 0])
+bem_com = np.array([0, 0, 0])
 print(f"bem_body_name:    {bem_body_name}")
 print(f"bem_translate:    {bem_translate} m")
 print(f"bem_com:          {bem_com} m")
@@ -137,7 +140,7 @@ def call_capy():
     load and run the WEC-SIM call_capytaine module
     """
     moduledir = os.path.join(
-        bem_modpath, "..", "..", "..", "WEC-SIM", "examples", "BEMIO", "CAPYTAINE"
+        bem_modpath, "..", "..", "..", "..", "WEC-SIM", "examples", "BEMIO", "CAPYTAINE"
     )
     sys.path.append(moduledir)
     # print(f"moduledir: {moduledir}")

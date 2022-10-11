@@ -7,8 +7,24 @@ try
 catch
 end
 
-%Plot heave response for body 1
+%Plot responses for body 1
+% surge
+output.plotResponse(1,1);
+    
+% sway (negligible)
+% output.plotResponse(1,2);
+
+% heave
 output.plotResponse(1,3);
+
+% roll (negligible)
+% output.plotResponse(1,4);
+
+% pitch
+output.plotResponse(1,5);
+
+% yaw (negligible)
+% output.plotResponse(1,6);
 
 %Plot heave forces for body 1
 output.plotForces(1,3);

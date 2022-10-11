@@ -29,16 +29,10 @@ Run the Python script to generate the BEM data:
 
 ```zsh
 % cd WEC-SIM_Applications/Ellipsoid/hydroData
-% python -m ellipsoid.py
+% python run_capytaine.py
 ```
 
-The script defines the BEM problem then calls the script 
-
-```zsh
-WEC-Sim/examples/BEMIO/CAPYTAINE/call_capytain.py
-```
-
-which creates the following output files:
+The script creates the following output files:
 
 - `ellipsoid.nc`
 - `Hydrostatics.dat`
@@ -51,8 +45,15 @@ Notes:
 to generate the BEM data using Capytain requires the mesh origin is located
 at the mean water surface [WE-Sim, Workflow, Step 2: Generate Hydrodata File](http://wec-sim.github.io/WEC-Sim/master/user/workflow.html#step-2-generate-hydrodata-file).
 
+    Both STL files have the body origin at the CoM
 
-1. **Convergence**: the BEM solver issues a warning if the panel elements
+    - `geometry/ellipsoid.stl`
+    - `geometry/ellipsoid_f5244.stl`
+
+    Before calling the Capytaine BEM solver the mesh is translated so the
+    waterplane is at the origin.
+
+2. **Convergence**: the BEM solver issues a warning if the panel elements
 are too large compared to the wavelength being analysed: `8 * max_mesh_radius < wavelength`. This places an upper limit on the frequencies for a given mesh resolution. The geometry may be remeshed in Blender using a combination of the
 mesh refinement and mesh triangulation tools.
 
